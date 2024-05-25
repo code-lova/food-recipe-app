@@ -263,7 +263,7 @@ router.post("/login", async(req, res) => {
         // Generate a JWT token with the gererateJwt function
         const authToken = generareJWT(payload, secretKey, expiresIn);
 
-        res.cookie("token", authToken, {secure: true, sameSite: 'none', httpOnly: true, maxAge: 3600000, partitioned: true})
+        res.cookie("token", authToken, {secure: true, sameSite: 'None', httpOnly: true, maxAge: 3600000, partitioned: true})
         return res.json({
             status: 200,
             role: payload.role,
