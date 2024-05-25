@@ -10,6 +10,7 @@ import { BASEURL } from "../../utils";
 const Login = () => {
 
     const navigate = useNavigate();
+    const [btnLoading, setBtnLoading] = useState(false);
     const [loginInput, setLoginInput] = useState({
 
         username: '',
@@ -22,8 +23,9 @@ const Login = () => {
         setLoginInput({...loginInput, [e.target.name]: e.target.value});
     }
 
-    const SubmitLogin = async (e) => {
+    const SubmitLogin = async(e) => {
         e.preventDefault();
+        setBtnLoading(true)
 
         try{
 
@@ -64,6 +66,8 @@ const Login = () => {
         }catch(error){
             console.error('Error occurred during login:', error);
             toast.error('Please try again later.', { theme: 'colored' });
+        }finally{
+            setBtnLoading(false);
         }
     }
 
@@ -90,7 +94,7 @@ const Login = () => {
                             <div className="forgot-password">
                                 <Link to="/forgot-password">Forgot your password?</Link>
                             </div>
-                            <button type="submit">Login your Account</button>
+                            <button type="submit" disabled={btnLoading}>{btnLoading ? 'Please Wait...': 'Login your Account'}</button>
                         </form>
                         
                     </div>
