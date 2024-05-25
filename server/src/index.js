@@ -18,7 +18,7 @@ const app = express();
 // Define a whitelist of allowed origins
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://food-recipe-app-neon.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
