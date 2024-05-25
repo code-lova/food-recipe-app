@@ -40,7 +40,7 @@ const HomeRecipe = () => {
                     return (
 
                         <div key={data._id}>
-                            <Link to={`/recipe/${data.slug}`} target="__blank">
+                            <Link to={`/recipe/${data.slug}`}>
                                 <div className="recipes-card">
                                     <img src={`${BASEURL}/uploads/${data.file}`} alt={data.name} loading='lazy' width={50}  height={190}/>
                                     <h3>{data.name}</h3>
