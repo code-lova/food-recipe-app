@@ -1,0 +1,1 @@
+export const BASEURL = `https://food-recipes-app-f5uq.onrender.com`;
