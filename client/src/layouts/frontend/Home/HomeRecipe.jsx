@@ -38,7 +38,7 @@ const HomeRecipe = () => {
             <div className="recipe-grid">
                 {otherRecipe.map((data) => {
                     return (
-
+                        
                         <div key={data._id}>
                             <Link to={`/recipe/${data.slug}`}>
                                 <div className="recipes-card">
