@@ -121,12 +121,12 @@ const EditRecipe = () => {
 
             const response = await axios.put(`${BASEURL}/api/update-user-recipe/${slugs}`, formData);
             if (response.data.status === 200) {
-                toast.success(res.data.message,{
+                toast.success(response.data.message,{
                     theme: 'colored'
                 });
                 imageInput.current.value = ''; //clearing image input field
             }else {
-                toast.error(res.data.message, {
+                toast.error(response.data.message, {
                     theme: 'colored'
                 });
             }
