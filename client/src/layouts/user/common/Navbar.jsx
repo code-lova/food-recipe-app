@@ -29,15 +29,18 @@ const Navbar = () => {
     }
 
     //Submit logout function 
-    const submitLogout = (e) => {
+    const submitLogout = async(e) => {
         e.preventDefault();
-        axios.post(`${BASEURL}/auth/logout`).then(res => {
-            if(res.data.status === 200){
+
+        try{
+            const response = await axios.post(`${BASEURL}/auth/logout`);
+            if(response.data.status === 200){
                 navigate('/')
             }
-        }).catch(err => {
-            console.log(err)
-        })
+        }catch(error){
+            console.error("Error during Logout")
+        }
+       
     }
 
 
