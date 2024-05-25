@@ -6,7 +6,7 @@ import { BASEURL } from "../../../utils";
 
 const AddRecipe = () => {
 
-    const [IsLoading, setIsLoading] = useState(false);
+    const [btnLoading, setBtnLoading] = useState(false);
 
     //fetching all recipe categories
     const [categories, setCategories] = useState([]);
@@ -125,12 +125,11 @@ const AddRecipe = () => {
 
    
 
-    const createRecipe = (e) => {
+    const createRecipe = async(e) => {
         e.preventDefault();
-        setIsLoading(true); // Set loading to true when form is being submitted
+        setBtnLoading(true); // Set loading to true when form is being submitted
 
         try{
-
             const formData = new FormData();
             formData.append('file', picture);
             formData.append('name', recipe.name);
@@ -169,13 +168,11 @@ const AddRecipe = () => {
                     });
                 }
             });
-
-
         }catch (error) {
             console.error('Error creating recipe:', error);
             toast.error('Error please try again later.');
         }finally{
-            setIsLoading(false);
+            setBtnLoading(false);
         }
 
     }
@@ -332,7 +329,7 @@ const AddRecipe = () => {
                                 </div>
 
                                 <div className="group-6">
-                                    <button type="submit" disabled={IsLoading}>{IsLoading ? 'Loading...': 'Create Recipe'}</button>
+                                    <button type="submit" disabled={btnLoading}>{btnLoading ? 'Loading...': 'Create Recipe'}</button>
                                 </div>
                             </form>
 

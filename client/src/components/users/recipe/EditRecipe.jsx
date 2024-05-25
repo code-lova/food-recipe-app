@@ -8,7 +8,8 @@ import { BASEURL } from "../../../utils";
 
 const EditRecipe = () => {
 
-   
+    const [btnLoading, setBtnLoading] = useState(false);
+
     //fetching all recipe categories
     const [categories, setCategories] = useState([]);
 
@@ -97,39 +98,47 @@ const EditRecipe = () => {
 
     const updateRecipe = async(e) => {
         e.preventDefault();
+        setBtnLoading(true);
 
-        const formData = new FormData();
-        formData.append('name', recipe.name);
-        formData.append('slug', recipe.slug);
-        formData.append('catSlug', recipe.catSlug);
-        formData.append('short_des', recipe.short_des);
-        formData.append('status', recipe.status);
-        formData.append('active_time', recipe.active_time);
-        formData.append('total_time', recipe.total_time);
-        formData.append('cooking_steps', JSON.stringify(recipe.cooking_steps));
-        formData.append('ingredients', JSON.stringify(recipe.ingredients));
-        formData.append('meta_title', recipe.meta_title);
-        formData.append('meta_keywords', recipe.meta_keywords);
-        formData.append('meta_desc', recipe.meta_desc);
-        
-        if (picture) {
-            formData.append('file', picture);
-        }
+        try{
+            const formData = new FormData();
+            formData.append('name', recipe.name);
+            formData.append('slug', recipe.slug);
+            formData.append('catSlug', recipe.catSlug);
+            formData.append('short_des', recipe.short_des);
+            formData.append('status', recipe.status);
+            formData.append('active_time', recipe.active_time);
+            formData.append('total_time', recipe.total_time);
+            formData.append('cooking_steps', JSON.stringify(recipe.cooking_steps));
+            formData.append('ingredients', JSON.stringify(recipe.ingredients));
+            formData.append('meta_title', recipe.meta_title);
+            formData.append('meta_keywords', recipe.meta_keywords);
+            formData.append('meta_desc', recipe.meta_desc);
+            
+            if (picture) {
+                formData.append('file', picture);
+            }
 
-        axios.put(`${BASEURL}/api/update-user-recipe/${slugs}`, formData).then(res => {
-            if (res.data.status === 200) {
+            const response = await axios.put(`${BASEURL}/api/update-user-recipe/${slugs}`, formData);
+            if (response.data.status === 200) {
                 toast.success(res.data.message,{
                     theme: 'colored'
                 });
                 imageInput.current.value = ''; //clearing image input field
-            } else {
+            }else {
                 toast.error(res.data.message, {
                     theme: 'colored'
                 });
             }
-        }).catch(error => {
-            console.error("unable to update recipes", error)
-        });
+            
+        }catch(error){
+            console.error("Problem Editing recipe:", error);
+            toast.error('Error please try again later.');
+        }finally{
+            setBtnLoading(false); // Set Btnloading to false after form submission
+        }
+
+
     }
 
 
@@ -266,7 +275,7 @@ const EditRecipe = () => {
                                         </div>
         
                                         <div className="group-6">
-                                            <button type="submit">Update Recipe</button>
+                                            <button type="submit" disabled={btnLoading}>{btnLoading ? 'Updating...': 'Update Recipe'}</button>
                                         </div>
                                     </form>
                                 ) : ( 
