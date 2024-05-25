@@ -230,22 +230,22 @@ router.put("/updatecategory/:id", verifyUser, async(req, res) => {
         }
 
 
-         //function to convert string to slug-string
-         const stringToSlug = (str, separator = '-') => {
-            return str
-                .toLowerCase()
-                .replace(/[^\w\s]/g, '') // Remove non-alphanumeric characters
-                .trim()
-                .replace(/\s+/g, separator);
-        };
+        //  //function to convert string to slug-string
+        //  const stringToSlug = (str, separator = '-') => {
+        //     return str
+        //         .toLowerCase()
+        //         .replace(/[^\w\s]/g, '') // Remove non-alphanumeric characters
+        //         .trim()
+        //         .replace(/\s+/g, separator);
+        // };
         
-        // Assuming there is a name variable available
-        const slugs = stringToSlug(slug);
+        // // Assuming there is a name variable available
+        // const slugs = stringToSlug(slug);
 
         // Construct update object with provided fields
         const updateCategory = {
             name,
-            slug: slugs,
+            slug,
             description,
             status,
             meta_title,
