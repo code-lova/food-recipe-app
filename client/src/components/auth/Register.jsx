@@ -12,6 +12,8 @@ const Register = () => {
 
     const navigate = useNavigate();
 
+    const [btnLoading, setBtnLoading] = useState(false);
+
     const [regInput, setRegInput] = useState({
         name: '',
         username: '',
@@ -27,7 +29,7 @@ const Register = () => {
 
     const submitRegister = async (e) => {
         e.preventDefault();
-        
+        setBtnLoading(true);
         try{
 
             const data = {
@@ -67,6 +69,8 @@ const Register = () => {
         }catch (error) {
             console.error('Error occurred during sign-up:', error);
             toast.error('Please try again later.', { theme: 'colored' });
+        }finally{
+            setBtnLoading(false);
         }
     }
 
@@ -111,7 +115,7 @@ const Register = () => {
                             <div className="forgot-password">
                                 <p>By signing up you agree to our <Link to="#" className="terms">terms</Link> of services</p>
                             </div>
-                            <button type="submit">Create your Account</button>
+                            <button type="submit" disabled={btnLoading}>{btnLoading ? 'Loading...': 'Create your Account'}</button>
                         </form>
                         
                     </div>

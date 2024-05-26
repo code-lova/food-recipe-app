@@ -9,6 +9,8 @@ import { BASEURL } from "../../utils";
 const Verify = () => {
 
     const navigate = useNavigate();
+    const [btnLoading, setBtnLoading] = useState(false);
+
     const [otpInput, setOtpInput] = useState({
         otp: '',
     });
@@ -18,31 +20,40 @@ const Verify = () => {
         setOtpInput({...otpInput, [e.target.name]: e.target.value});
     }
 
-    const submitOTP = (e) => {
+    const submitOTP = async(e) => {
         e.preventDefault();
+        setBtnLoading(true)
+        try{
+        
+            const data = {
+                otp: otpInput.otp
+            }
 
-        const data = {
-            otp: otpInput.otp
-        }
-
-        axios.post(`${BASEURL}/auth/verify-email`, data).then(res => {
-            if(res.data.status === 200){
-                toast.success(res.data.message, {
+            const response = await axios.post(`${BASEURL}/auth/verify-email`, data);
+            if(response.data.status === 200){
+                toast.success(response.data.message, {
                     theme: 'colored',
                 });
                 navigate('/login');
 
-            }else if(res.data.status === 404){
-                toast.warning(res.data.message, {
+            }else if(response.data.status === 404){
+                toast.warning(response.data.message, {
                     theme: 'colored',
                 });
             }
-            else if(res.data.status === 400){
-                toast.error(res.data.message, {
+            else if(response.data.status === 400){
+                toast.error(response.data.message, {
                     theme: 'colored',
                 });
             }
-        })
+        }catch(error){
+            console.error("Problem Verifying Code:", error);
+            toast.error("Internal Server Error", {
+                theme: 'colored',
+            });
+        }finally{
+            setBtnLoading(false);
+        }
 
     }
 
@@ -66,7 +77,7 @@ const Verify = () => {
                             <div className="forgot-password">
                                 <p>By signing up you agree to our <Link to="#" className="terms">terms</Link> of services</p>
                             </div>
-                            <button type="submit">Verify Account</button>
+                            <button type="submit" disabled={btnLoading}>{btnLoading ? 'Verifying please wait...': 'Verify Account'}</button>
                         </form>
                         
                     </div>
